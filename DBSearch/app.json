@@ -1,14 +1,14 @@
 {
   "id": "5b11da2d-6477-48aa-9335-9c32fc0d4dcc",
   "name": "DBSearch",
-  "publisher": "Default publisher",
+  "publisher": "",
   "version": "1.0.0.0",
   "brief": "",
-  "description": "",
+  "description": "DBSearch for Business Central",
   "privacyStatement": "",
   "EULA": "",
   "help": "",
-  "url": "",
+  "url": "https://github.com/matteoparlato/DBSearch.AL",
   "logo": "",
   "dependencies": [
     {
