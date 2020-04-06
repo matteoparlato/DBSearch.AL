@@ -24,15 +24,14 @@ codeunit 50100 "DB Search Functions"
 
                         OnBeforeCorrection();
 
-                        // Check if the new value is valid
-                        if OptionValue = 1 then
-                            Evaluate(FldRef, "Correct Value")
-                        else
+                        // Check if the new value is valid and modify it
+                        if OptionValue = 1 then begin
+                            Evaluate(FldRef, "Correct Value");
+                            RecRef.Modify(true)
+                        end else begin
+                            // Store the new value without validation
                             FldRef.Value("Correct Value");
-
-                        // Apply the correction to the field value
-                        if not RecRef.Modify() then begin
-                            RecRef.Insert();
+                            RecRef.Modify();
                         end;
 
                         // Saves original record in ledger entries
