@@ -5,7 +5,7 @@ page 50100 "DB Search"
     UsageCategory = Administration;
     SourceTable = "DB Search";
     InsertAllowed = false;
-    DeleteAllowed = true;
+    DeleteAllowed = false;
     ModifyAllowed = true;
 
     layout
