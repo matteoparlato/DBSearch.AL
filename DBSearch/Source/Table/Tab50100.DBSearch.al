@@ -44,6 +44,11 @@ table 50100 "DB Search"
             Caption = 'Correct Value';
             DataClassification = CustomerContent;
         }
+        field(100; Selected; Boolean)
+        {
+            Caption = 'Selected';
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys

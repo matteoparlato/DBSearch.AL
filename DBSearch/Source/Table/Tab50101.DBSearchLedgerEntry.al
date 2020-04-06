@@ -45,7 +45,12 @@ table 50101 "DB Search Ledger Entry"
             Caption = 'Correct Value';
             DataClassification = CustomerContent;
         }
-        field(9; "Creation DateTime"; DateTime)
+        field(101; "Operation Description"; code[20])
+        {
+            Caption = 'Operation Description';
+            DataClassification = CustomerContent;
+        }
+        field(102; "Operation DateTime"; DateTime)
         {
             Caption = 'Creation DateTime';
             DataClassification = CustomerContent;

@@ -14,7 +14,7 @@ page 50100 "DB Search"
         {
             repeater(RepeaterName)
             {
-                field("Entry No."; "Entry No.")
+                field("Selected"; "Selected")
                 {
                     ApplicationArea = All;
                 }
@@ -60,6 +60,7 @@ page 50100 "DB Search"
                 Image = Find;
                 Promoted = true;
                 PromotedIsBig = true;
+                PromotedOnly = true;
 
                 trigger OnAction()
                 begin
@@ -73,6 +74,7 @@ page 50100 "DB Search"
                 Image = Apply;
                 Promoted = true;
                 PromotedIsBig = true;
+                PromotedOnly = true;
 
                 trigger OnAction()
                 begin
@@ -86,10 +88,11 @@ page 50100 "DB Search"
                 Image = Delete;
                 Promoted = true;
                 PromotedIsBig = true;
+                PromotedOnly = true;
 
                 trigger OnAction()
                 begin
-                    DBSearchFunctions.DeleteSearchRecords();
+                    DBSearchFunctions.DeleteSearchRecords(Rec);
                 end;
             }
 
@@ -99,12 +102,27 @@ page 50100 "DB Search"
                 Image = ClearLog;
                 Promoted = true;
                 PromotedIsBig = true;
+                PromotedOnly = true;
 
                 trigger OnAction()
                 begin
                     Reset();
                     DeleteAll();
                     CurrPage.Update();
+                end;
+            }
+
+            action(History)
+            {
+                ApplicationArea = All;
+                Image = History;
+                Promoted = true;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+
+                trigger OnAction()
+                begin
+                    Page.RunModal(Page::"DBSearch Ledger Entries");
                 end;
             }
         }
