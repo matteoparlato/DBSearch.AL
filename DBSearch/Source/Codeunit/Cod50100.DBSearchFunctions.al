@@ -22,6 +22,8 @@ codeunit 50100 "DB Search Functions"
                         RecRef.Get("Record ID");
                         FldRef := RecRef.Field("Field No.");
 
+                        OnBeforeCorrection();
+
                         // Check if the new value is valid
                         if OptionValue = 1 then
                             Evaluate(FldRef, "Correct Value")
@@ -35,6 +37,8 @@ codeunit 50100 "DB Search Functions"
 
                         // Saves original record in ledger entries
                         SaveInLedgerEntries(DBSearch, 'Corrected');
+
+                        OnAfterCorrection();
                     end;
                     Delete();
                 until (Next = 0);
@@ -69,6 +73,8 @@ codeunit 50100 "DB Search Functions"
                 repeat
                     RecRef.GET("Record ID");
 
+                    OnBeforeDelete();
+
                     // Deletes the record
                     if OptionValue = 1 then
                         RecRef.Delete(true)
@@ -77,6 +83,8 @@ codeunit 50100 "DB Search Functions"
 
                     // Saves original record in ledger entries
                     SaveInLedgerEntries(DBSearch, 'Deleted');
+
+                    OnAfterDelete();
 
                     Delete();
                 until (Next = 0);
@@ -89,6 +97,8 @@ codeunit 50100 "DB Search Functions"
     procedure SearchValues()
     begin
         Report.RunModal(Report::"DB Search");
+
+        OnAfterSearch();
     end;
 
     procedure SaveInLedgerEntries(DBSearch: Record "DB Search"; Operation: Code[20])
@@ -105,5 +115,31 @@ codeunit 50100 "DB Search Functions"
             "Operation DateTime" := CurrentDateTime;
             Insert();
         end;
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeCorrection()
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterCorrection()
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeDelete()
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterDelete
+    ()
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterSearch()
+    begin
     end;
 }
