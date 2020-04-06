@@ -1,6 +1,6 @@
 codeunit 50100 "DB Search Functions"
 {
-    procedure CorrectSearchValues(DBSearch: Record "DB Search")
+    procedure CorrectValues(DBSearch: Record "DB Search")
     var
         RecRef: RecordRef;
         FldRef: FieldRef;
@@ -24,21 +24,22 @@ codeunit 50100 "DB Search Functions"
 
                         OnBeforeCorrection();
 
-                        // Check if the new value is valid and modify it
+                        // Modify the field with validation
                         if OptionValue = 1 then begin
                             Evaluate(FldRef, "Correct Value");
                             RecRef.Modify(true)
                         end else begin
-                            // Store the new value without validation
+                            // Modify the field without validation
                             FldRef.Value("Correct Value");
                             RecRef.Modify();
                         end;
 
-                        // Saves original record in ledger entries
-                        SaveInLedgerEntries(DBSearch, 'Corrected');
-
                         OnAfterCorrection();
+
+                        // Saves original record in ledger entries
+                        SaveInLedgerEntries(DBSearch, DBSearchLedgEntry."Operation Type"::Modified);
                     end;
+
                     Delete();
                 until (Next = 0);
 
@@ -47,7 +48,7 @@ codeunit 50100 "DB Search Functions"
         end;
     end;
 
-    procedure DeleteSearchRecords(DBSearch: Record "DB Search")
+    procedure DeleteRecords(DBSearch: Record "DB Search")
     var
         RecRef: RecordRef;
         FldRef: FieldRef;
@@ -55,16 +56,19 @@ codeunit 50100 "DB Search Functions"
         Options: TextConst ENU = 'With validation,Without validation', ITA = 'Con validazione,Senza validazione';
         Text001: TextConst ENU = 'Delete selected records?', ITA = 'Eliminare i record selezionati?';
         Text002: TextConst ENU = 'Deletion completed', ITA = 'Eliminazione completata';
+        Text003: TextConst ENU = 'Are you VERY sure you want to proceed with the deletion of selected records? The operation cannot be undone. Make a backup of the database before continuing.',
+                           ITA = 'Sei veramente sicuro di voler eliminare i record selezionati? L''operazione è irreversibile. Esegui un backup del database prima di continuare.';
     begin
-        OptionValue := Dialog.StrMenu(Options, 1, Text001);
+        OptionValue := Dialog.StrMenu(Options, 2, Text001);
         if OptionValue = 0 then
             exit;
 
         if not Confirm(Text001) then exit;
         if not Confirm(Text001) then exit;
         if not Confirm(Text001) then exit;
-        if not Confirm(Text001) then exit;
-        if not Confirm(Text001) then exit;
+        if not Confirm(Text003) then exit;
+        if not Confirm(Text003) then exit;
+        if not Confirm(Text003) then exit;
 
         with DBSearch do begin
             SetRange(Selected, true);
@@ -74,19 +78,62 @@ codeunit 50100 "DB Search Functions"
 
                     OnBeforeDelete();
 
-                    // Deletes the record
+                    // Delete the record with validation
                     if OptionValue = 1 then
                         RecRef.Delete(true)
                     else
+                        // Delete the record without validation
                         RecRef.Delete();
-
-                    // Saves original record in ledger entries
-                    SaveInLedgerEntries(DBSearch, 'Deleted');
 
                     OnAfterDelete();
 
+                    // Save original record in ledger entries
+                    SaveInLedgerEntries(DBSearch, DBSearchLedgEntry."Operation Type"::Deleted);
+
                     Delete();
                 until (Next = 0);
+
+                Message(Text002);
+            end;
+        end;
+    end;
+
+    procedure RestoreValue(DBSearchLedgEntry: Record "DB Search Ledger Entry")
+    var
+        RecRef: RecordRef;
+        FldRef: FieldRef;
+        OptionValue: Integer;
+        Options: TextConst ENU = 'With validation,Without validation', ITA = 'Con validazione,Senza validazione';
+        Text001: TextConst ENU = 'Restore selected value?', ITA = 'Ripristinare il valore selezionato?';
+        Text002: TextConst ENU = 'Restore completed', ITA = 'Ripristino completato';
+    begin
+        OptionValue := Dialog.StrMenu(Options, 1, Text001);
+        if OptionValue = 0 then
+            exit;
+
+        with DBSearchLedgEntry do begin
+            IF "Operation Type" = "Operation Type"::Modified then begin
+                RecRef.GET("Record ID");
+                FldRef := RecRef.Field("Field No.");
+
+                OnBeforeRestoreField();
+
+                // Insert the original field value with validation
+                if OptionValue = 1 then begin
+                    Evaluate(FldRef, "Current Value");
+                    RecRef.Modify(TRUE)
+                end else begin
+                    // Insert the original field value without validation
+                    FldRef.Value("Current Value");
+                    RecRef.Modify();
+                end;
+
+                OnAfterRestoreField();
+
+                // Update original record in ledger entries
+                "Operation Type" := "Operation Type"::Restored;
+                "Operation DateTime" := CURRENTDATETIME;
+                Modify();
 
                 Message(Text002);
             end;
@@ -100,7 +147,7 @@ codeunit 50100 "DB Search Functions"
         OnAfterSearch();
     end;
 
-    procedure SaveInLedgerEntries(DBSearch: Record "DB Search"; Operation: Code[20])
+    procedure SaveInLedgerEntries(DBSearch: Record "DB Search"; OptionType: Option)
     var
         DBSearchLedgEntry: Record "DB Search Ledger Entry";
         DBSearchLedgEntry2: Record "DB Search Ledger Entry";
@@ -110,11 +157,15 @@ codeunit 50100 "DB Search Functions"
         with DBSearchLedgEntry do begin
             TransferFields(DBSearch);
             "Entry No." := DBSearchLedgEntry2."Entry No." + 10000;
-            "Operation Description" := Operation;
+            "Operation Type" := OptionType;
             "Operation DateTime" := CurrentDateTime;
             Insert();
         end;
     end;
+
+    var
+        DBSearchLedgEntry: Record "DB Search Ledger Entry";
+
 
     [IntegrationEvent(false, false)]
     local procedure OnBeforeCorrection()
@@ -132,8 +183,17 @@ codeunit 50100 "DB Search Functions"
     end;
 
     [IntegrationEvent(false, false)]
-    local procedure OnAfterDelete
-    ()
+    local procedure OnAfterDelete()
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeRestoreField()
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterRestoreField()
     begin
     end;
 

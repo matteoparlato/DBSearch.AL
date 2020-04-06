@@ -64,7 +64,7 @@ page 50100 "DB Search"
 
                 trigger OnAction()
                 begin
-                    DBSearch.RunModal();
+                    DBSearchFunctions.SearchValues();
                 end;
             }
 
@@ -78,21 +78,21 @@ page 50100 "DB Search"
 
                 trigger OnAction()
                 begin
-                    DBSearchFunctions.CorrectSearchValues(Rec);
+                    DBSearchFunctions.CorrectValues(Rec);
                 end;
             }
 
             action(Delete)
             {
                 ApplicationArea = All;
-                Image = Delete;
+                Image = DeleteRow;
                 Promoted = true;
                 PromotedIsBig = true;
                 PromotedOnly = true;
 
                 trigger OnAction()
                 begin
-                    DBSearchFunctions.DeleteSearchRecords(Rec);
+                    DBSearchFunctions.DeleteRecords(Rec);
                 end;
             }
 
@@ -129,6 +129,5 @@ page 50100 "DB Search"
     }
 
     var
-        DBSearch: Report "DB Search";
         DBSearchFunctions: Codeunit "DB Search Functions";
 }

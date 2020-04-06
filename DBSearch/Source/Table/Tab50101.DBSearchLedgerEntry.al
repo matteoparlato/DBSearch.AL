@@ -37,7 +37,7 @@ table 50101 "DB Search Ledger Entry"
         }
         field(7; "Current Value"; Text[250])
         {
-            Caption = 'Current Value';
+            Caption = 'Previous Value';
             DataClassification = CustomerContent;
         }
         field(8; "Correct Value"; Text[250])
@@ -45,9 +45,10 @@ table 50101 "DB Search Ledger Entry"
             Caption = 'Correct Value';
             DataClassification = CustomerContent;
         }
-        field(101; "Operation Description"; code[20])
+        field(101; "Operation Type"; Option)
         {
-            Caption = 'Operation Description';
+            Caption = 'Operation Type';
+            OptionMembers = Deleted,Modified,Restored;
             DataClassification = CustomerContent;
         }
         field(102; "Operation DateTime"; DateTime)

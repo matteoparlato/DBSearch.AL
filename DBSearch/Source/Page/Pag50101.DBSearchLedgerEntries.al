@@ -21,8 +21,9 @@ page 50101 "DBSearch Ledger Entries"
                 {
                     ApplicationArea = All;
                 }
-                field("Operation Description"; "Operation Description")
+                field("Operation Description"; "Operation Type")
                 {
+                    StyleExpr = StyleExpression;
                     ApplicationArea = All;
                 }
                 field("Table No."; "Table No.")
@@ -64,12 +65,35 @@ page 50101 "DBSearch Ledger Entries"
                 Promoted = true;
                 PromotedIsBig = true;
                 PromotedOnly = true;
+                Enabled = CanRestore;
 
                 trigger OnAction()
                 begin
-
+                    DBSearchFunctions.RestoreValue(Rec);
                 end;
             }
         }
     }
+
+    trigger OnAfterGetRecord()
+    begin
+        CanRestore := false;
+        case "Operation Type" of
+            "Operation Type"::Deleted:
+                begin
+                    StyleExpression := 'Attention';
+                end;
+            "Operation Type"::Modified:
+                begin
+                    StyleExpression := 'Ambiguous';
+                    CanRestore := true;
+                end else
+                        StyleExpression := 'Favorable';
+        end;
+    end;
+
+    var
+        CanRestore: Boolean;
+        DBSearchFunctions: Codeunit "DB Search Functions";
+        StyleExpression: Text;
 }
