@@ -6,6 +6,8 @@ report 50100 "DB Search"
     {
         dataitem(Field; Field)
         {
+            RequestFilterFields = FieldName, Class, Len, TableNo;
+
             trigger OnAfterGetRecord()
             var
                 LrecField: Record Field;
@@ -130,7 +132,7 @@ report 50100 "DB Search"
 
                         trigger OnValidate()
                         begin
-                            FIeld.SetRange(Len, StrLen(txtFindString));
+                            Field.SetRange(Len, StrLen(txtFindString));
                         end;
                     }
                     field(txtFieldToCorrect; txtFieldToCorrect)
@@ -171,6 +173,8 @@ report 50100 "DB Search"
 
     [NonDebuggable]
     local procedure CheckPassword()
+    var
+        Text0001: TextConst ENU = 'The specified password is not correct.', ITA = 'La password specificata non è corretta';
     begin
         if Password <> 'a8a0c8e9-bdc8-4719-9e3b-3114328830af' then begin
             Error(Text0001);
@@ -182,6 +186,4 @@ report 50100 "DB Search"
         txtFieldToCorrect: Text[250];
         txtCorrectValue: Text[1024];
         Password: Text[36];
-        Text0001: TextConst ENU = 'The specified password is not correct.', ITA = 'La password specificata non è corretta';
-
 }

@@ -34,10 +34,6 @@ page 50100 "DB Search"
                 {
                     ApplicationArea = All;
                 }
-                field("Record ID"; "Record ID")
-                {
-                    ApplicationArea = All;
-                }
                 field("Current Value"; "Current Value")
                 {
                     ApplicationArea = All;
