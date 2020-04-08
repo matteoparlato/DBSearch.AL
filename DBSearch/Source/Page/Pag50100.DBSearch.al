@@ -86,7 +86,7 @@ page 50100 "DB Search"
             action(Delete)
             {
                 ApplicationArea = All;
-                Image = DeleteRow;
+                Image = CancelLine;
                 Promoted = true;
                 PromotedIsBig = true;
                 PromotedOnly = true;
@@ -110,6 +110,20 @@ page 50100 "DB Search"
                     Reset();
                     DeleteAll();
                     CurrPage.Update();
+                end;
+            }
+
+            action(Show)
+            {
+                ApplicationArea = All;
+                Image = ReviewWorksheet;
+                Promoted = true;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+
+                trigger OnAction()
+                begin
+                    DBSearchFunctions.ShowRecord("Record ID");
                 end;
             }
 

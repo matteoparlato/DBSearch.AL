@@ -147,6 +147,16 @@ codeunit 50100 "DB Search Functions"
         OnAfterSearch();
     end;
 
+    procedure ShowRecord(RecId: RecordId)
+    var
+        RecRef: RecordRef;
+        RecVar: Variant;
+    begin
+        RecRef := RecId.GetRecord();
+        RecVar := RecRef;
+        Page.Run(0, RecVar);
+    end;
+
     procedure SaveInLedgerEntries(DBSearch: Record "DB Search"; OptionType: Option)
     var
         DBSearchLedgEntry: Record "DB Search Ledger Entry";

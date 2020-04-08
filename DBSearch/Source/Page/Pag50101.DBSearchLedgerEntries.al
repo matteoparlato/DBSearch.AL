@@ -72,6 +72,20 @@ page 50101 "DBSearch Ledger Entries"
                     DBSearchFunctions.RestoreValue(Rec);
                 end;
             }
+
+            action(Show)
+            {
+                ApplicationArea = All;
+                Image = ReviewWorksheet;
+                Promoted = true;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+
+                trigger OnAction()
+                begin
+                    DBSearchFunctions.ShowRecord("Record ID");
+                end;
+            }
         }
     }
 
