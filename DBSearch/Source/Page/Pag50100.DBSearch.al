@@ -21,22 +21,27 @@ page 50100 "DB Search"
                 field("Table No."; "Table No.")
                 {
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Table Name"; "Table Name")
                 {
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Field No."; "Field No.")
                 {
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Field Name"; "Field Name")
                 {
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Current Value"; "Current Value")
                 {
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Correct Value"; "Correct Value")
                 {

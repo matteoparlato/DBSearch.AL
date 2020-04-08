@@ -81,11 +81,11 @@ page 50101 "DBSearch Ledger Entries"
         case "Operation Type" of
             "Operation Type"::Deleted:
                 begin
-                    StyleExpression := 'Attention';
+                    StyleExpression := 'Unfavorable';
                 end;
             "Operation Type"::Modified:
                 begin
-                    StyleExpression := 'Ambiguous';
+                    StyleExpression := 'Unfavorable';
                     CanRestore := true;
                 end else
                         StyleExpression := 'Favorable';

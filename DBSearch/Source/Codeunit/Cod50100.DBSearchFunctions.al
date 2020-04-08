@@ -152,11 +152,16 @@ codeunit 50100 "DB Search Functions"
         DBSearchLedgEntry: Record "DB Search Ledger Entry";
         DBSearchLedgEntry2: Record "DB Search Ledger Entry";
         PK: Integer;
+        NextEntryNo: Integer;
     begin
-        DBSearchLedgEntry2.FindLast();
+        if DBSearchLedgEntry2.FindLast() then
+            NextEntryNo := DBSearchLedgEntry2."Entry No." + 10000
+        else
+            NextEntryNo := 10000;
+
         with DBSearchLedgEntry do begin
             TransferFields(DBSearch);
-            "Entry No." := DBSearchLedgEntry2."Entry No." + 10000;
+            "Entry No." := NextEntryNo;
             "Operation Type" := OptionType;
             "Operation DateTime" := CurrentDateTime;
             Insert();
