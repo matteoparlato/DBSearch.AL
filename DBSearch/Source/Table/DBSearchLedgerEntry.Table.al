@@ -56,7 +56,7 @@ table 50101 "DB Search Ledger Entry"
             Caption = 'Operation DateTime';
             DataClassification = CustomerContent;
         }
-        field(103; "Operation Executed By"; Code[250])
+        field(103; "Operation Executed By"; Code[50])
         {
             Caption = 'Operation Executed By';
             DataClassification = CustomerContent;
@@ -75,6 +75,6 @@ table 50101 "DB Search Ledger Entry"
     trigger OnInsert()
     begin
         "Operation DateTime" := CurrentDateTime;
-        "Operation Executed By" := UserId;
+        "Operation Executed By" := CopyStr(UserId, 1, 50);
     end;
 }

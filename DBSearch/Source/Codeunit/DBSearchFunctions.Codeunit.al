@@ -5,11 +5,11 @@ codeunit 50100 "DB Search Functions"
         RecRef: RecordRef;
         FldRef: FieldRef;
         OptionValue: Integer;
-        Options: TextConst ENU = 'With validation,Without validation', ITA = 'Con validazione,Senza validazione';
-        Text001: TextConst ENU = 'Correct selected values?', ITA = 'Correggere i valori selezionati?';
-        Text002: TextConst ENU = 'Correction completed', ITA = 'Correzione completata';
+        OptionsQst: TextConst ENU = 'With validation,Without validation', ITA = 'Con validazione,Senza validazione';
+        Text001Txt: TextConst ENU = 'Correct selected values?', ITA = 'Correggere i valori selezionati?';
+        Text002Txt: TextConst ENU = 'Correction completed', ITA = 'Correzione completata';
     begin
-        OptionValue := Dialog.StrMenu(Options, 1, Text001);
+        OptionValue := Dialog.StrMenu(OptionsQst, 1, Text001Txt);
         if OptionValue = 0 then
             exit;
 
@@ -41,9 +41,9 @@ codeunit 50100 "DB Search Functions"
                     end;
 
                     Delete();
-                until (Next = 0);
+                until (Next() = 0);
 
-                Message(Text002);
+                Message(Text002Txt);
             end;
         end;
     end;
@@ -53,22 +53,21 @@ codeunit 50100 "DB Search Functions"
         RecRef: RecordRef;
         FldRef: FieldRef;
         OptionValue: Integer;
-        Options: TextConst ENU = 'With validation,Without validation', ITA = 'Con validazione,Senza validazione';
-        Text001: TextConst ENU = 'Delete selected records?', ITA = 'Eliminare i record selezionati?';
-        Text002: TextConst ENU = 'Deletion completed', ITA = 'Eliminazione completata';
-        Text003: TextConst ENU = 'Are you VERY sure you want to proceed with the deletion of selected records? The operation cannot be undone. Make a backup of the database before continuing.',
-                           ITA = 'Sei veramente sicuro di voler eliminare i record selezionati? L''operazione è irreversibile. Esegui un backup del database prima di continuare.';
+        OptionsQst: TextConst ENU = 'With validation,Without validation', ITA = 'Con validazione,Senza validazione';
+        Text001Txt: TextConst ENU = 'Delete selected records?', ITA = 'Eliminare i record selezionati?';
+        Text002Txt: TextConst ENU = 'Deletion completed', ITA = 'Eliminazione completata';
+        Text003Txt: TextConst ENU = 'Are you VERY sure you want to proceed with the deletion of selected records? The operation cannot be undone. Make a backup of the database before continuing.', ITA = 'Sei veramente sicuro di voler eliminare i record selezionati? L''operazione è irreversibile. Esegui un backup del database prima di continuare.';
     begin
-        OptionValue := Dialog.StrMenu(Options, 2, Text001);
+        OptionValue := Dialog.StrMenu(OptionsQst, 2, Text001Txt);
         if OptionValue = 0 then
             exit;
 
-        if not Confirm(Text001) then exit;
-        if not Confirm(Text001) then exit;
-        if not Confirm(Text001) then exit;
-        if not Confirm(Text003) then exit;
-        if not Confirm(Text003) then exit;
-        if not Confirm(Text003) then exit;
+        if not Confirm(Text001Txt) then exit;
+        if not Confirm(Text001Txt) then exit;
+        if not Confirm(Text001Txt) then exit;
+        if not Confirm(Text003Txt) then exit;
+        if not Confirm(Text003Txt) then exit;
+        if not Confirm(Text003Txt) then exit;
 
         with DBSearch do begin
             SetRange(Selected, true);
@@ -91,9 +90,9 @@ codeunit 50100 "DB Search Functions"
                     SaveInLedgerEntries(DBSearch, DBSearchLedgEntry."Operation Type"::Deleted);
 
                     Delete();
-                until (Next = 0);
+                until (Next() = 0);
 
-                Message(Text002);
+                Message(Text002Txt);
             end;
         end;
     end;
@@ -103,17 +102,16 @@ codeunit 50100 "DB Search Functions"
         RecRef: RecordRef;
         FldRef: FieldRef;
         OptionValue: Integer;
-        DBSearch: Record "DB Search";
-        Options: TextConst ENU = 'With validation,Without validation', ITA = 'Con validazione,Senza validazione';
-        Text001: TextConst ENU = 'Restore selected value?', ITA = 'Ripristinare il valore selezionato?';
-        Text002: TextConst ENU = 'Restore completed', ITA = 'Ripristino completato';
-        Text003: TextConst ENU = 'The value you are trying to restore has changed since you applied the correction. Continue?\\Current value: %1\Correction value: %2\Value to restore: %3';
+        OptionsQst: TextConst ENU = 'With validation,Without validation', ITA = 'Con validazione,Senza validazione';
+        Text001Txt: TextConst ENU = 'Restore selected value?', ITA = 'Ripristinare il valore selezionato?';
+        Text002Txt: TextConst ENU = 'Restore completed', ITA = 'Ripristino completato';
+        Text003Txt: TextConst ENU = 'The value you are trying to restore has changed since you applied the correction. Continue?\\Current value: %1\Correction value: %2\Value to restore: %3';
     begin
-        OptionValue := Dialog.StrMenu(Options, 1, Text001);
+        OptionValue := Dialog.StrMenu(OptionsQst, 1, Text001Txt);
         if OptionValue = 0 then
             exit;
 
-        with DBSearchLedgEntry do begin
+        with DBSearchLedgEntry do
             IF "Operation Type" = "Operation Type"::Modified then begin
                 RecRef.GET("Record ID");
                 FldRef := RecRef.Field("Field No.");
@@ -122,9 +120,8 @@ codeunit 50100 "DB Search Functions"
 
                 // Check if value has changed since the correction
                 if Format(FldRef.Value) <> "Correct Value" then
-                    if not Confirm(StrSubstNo(Text003, FldRef.Value, "Correct Value", "Current Value")) then begin
+                    if not Confirm(StrSubstNo(Text003Txt, FldRef.Value, "Correct Value", "Current Value")) then
                         exit;
-                    end;
 
                 // Insert the original field value with validation
                 if OptionValue = 1 then begin
@@ -143,9 +140,8 @@ codeunit 50100 "DB Search Functions"
                 "Operation DateTime" := CURRENTDATETIME;
                 Modify();
 
-                Message(Text002);
+                Message(Text002Txt);
             end;
-        end;
     end;
 
     procedure SearchValues()
@@ -169,7 +165,6 @@ codeunit 50100 "DB Search Functions"
     var
         DBSearchLedgEntry: Record "DB Search Ledger Entry";
         DBSearchLedgEntry2: Record "DB Search Ledger Entry";
-        PK: Integer;
         NextEntryNo: Integer;
     begin
         if DBSearchLedgEntry2.FindLast() then

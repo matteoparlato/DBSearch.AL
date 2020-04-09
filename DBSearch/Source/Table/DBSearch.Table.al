@@ -47,7 +47,7 @@ table 50100 "DB Search"
         field(100; Selected; Boolean)
         {
             Caption = 'Selected';
-            DataClassification = ToBeClassified;
+            DataClassification = CustomerContent;
         }
     }
 

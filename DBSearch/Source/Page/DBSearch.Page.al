@@ -17,35 +17,42 @@ page 50100 "DB Search"
             {
                 field("Selected"; "Selected")
                 {
+                    ToolTip = 'Select the values to correct or delete';
                     ApplicationArea = All;
                 }
                 field("Table No."; "Table No.")
                 {
+                    ToolTip = 'The number of the table';
                     ApplicationArea = All;
                     Editable = false;
                 }
                 field("Table Name"; "Table Name")
                 {
+                    ToolTip = 'The name of the table';
                     ApplicationArea = All;
                     Editable = false;
                 }
                 field("Field No."; "Field No.")
                 {
+                    ToolTip = 'The number of the field';
                     ApplicationArea = All;
                     Editable = false;
                 }
                 field("Field Name"; "Field Name")
                 {
+                    ToolTip = 'The name of the field';
                     ApplicationArea = All;
                     Editable = false;
                 }
                 field("Current Value"; "Current Value")
                 {
+                    ToolTip = 'The current value of the field';
                     ApplicationArea = All;
                     Editable = false;
                 }
                 field("Correct Value"; "Correct Value")
                 {
+                    ToolTip = 'The new value of the field';
                     ApplicationArea = All;
                 }
             }
@@ -64,6 +71,7 @@ page 50100 "DB Search"
                 PromotedIsBig = true;
                 PromotedOnly = true;
                 PromotedCategory = Process;
+                ToolTip = 'Search for values in all tables';
 
                 trigger OnAction()
                 begin
@@ -79,6 +87,7 @@ page 50100 "DB Search"
                 PromotedIsBig = true;
                 PromotedOnly = true;
                 PromotedCategory = Process;
+                ToolTip = 'Apply the new value to the selected rows';
 
                 trigger OnAction()
                 begin
@@ -94,6 +103,7 @@ page 50100 "DB Search"
                 PromotedIsBig = true;
                 PromotedOnly = true;
                 PromotedCategory = Process;
+                ToolTip = 'Delete the selected records';
 
                 trigger OnAction()
                 begin
@@ -109,6 +119,7 @@ page 50100 "DB Search"
                 PromotedIsBig = true;
                 PromotedOnly = true;
                 PromotedCategory = Process;
+                ToolTip = 'Clear search result';
 
                 trigger OnAction()
                 begin
@@ -126,6 +137,7 @@ page 50100 "DB Search"
                 PromotedIsBig = true;
                 PromotedOnly = true;
                 PromotedCategory = Process;
+                ToolTip = 'Open the record of the selected row.';
 
                 trigger OnAction()
                 begin
@@ -141,6 +153,7 @@ page 50100 "DB Search"
                 PromotedIsBig = true;
                 PromotedOnly = true;
                 PromotedCategory = Process;
+                ToolTip = 'Show DB Search usage history';
 
                 trigger OnAction()
                 begin
@@ -152,11 +165,11 @@ page 50100 "DB Search"
 
     trigger OnClosePage()
     var
-        Text0001: TextConst ENU = 'Clear session results? Other users may apply unwanted chages to data.';
+        Text001Txt: TextConst ENU = 'Clear session results? Other users may apply unwanted chages to data.';
     begin
         Reset();
         if Count() <> 0 then
-            if Confirm(Text0001) then
+            if Confirm(Text001Txt) then
                 DeleteAll();
     end;
 

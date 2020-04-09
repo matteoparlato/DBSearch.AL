@@ -1,5 +1,6 @@
 report 50100 "DB Search"
 {
+    UsageCategory = None;
     ProcessingOnly = true;
 
     dataset
@@ -25,24 +26,15 @@ report 50100 "DB Search"
                     field(txtFindString; SearchPattern)
                     {
                         Caption = 'Text to search';
+                        ToolTip = 'The value to search in tables.';
                         ApplicationArea = All;
                     }
-                    field(Password; Password)
+                    field(Password; UnlockPassword)
                     {
+                        Caption = 'Password';
+                        ToolTip = 'The password to unlock the report execution.';
                         ApplicationArea = All;
                     }
-                }
-            }
-        }
-
-        actions
-        {
-            area(processing)
-            {
-                action(ActionName)
-                {
-                    ApplicationArea = All;
-
                 }
             }
         }
@@ -73,16 +65,17 @@ report 50100 "DB Search"
     [NonDebuggable]
     local procedure CheckPassword()
     var
-        Text0001: TextConst ENU = 'The specified password is not correct.', ITA = 'La password specificata non è corretta';
+        Text001Txt: TextConst ENU = 'The specified password is not correct.', ITA = 'La password specificata non è corretta';
     begin
-        if Password <> 'a8a0c8e9-bdc8-4719-9e3b-3114328830af' then begin
-            Error(Text0001);
-        end;
+        if UnlockPassword <> 'a8a0c8e9-bdc8-4719-9e3b-3114328830af' then
+            Error(Text001Txt);
     end;
 
     local procedure FindSearchValues()
     var
-        rrSearchValuesField: RecordRef;
+        LrecField: Record Field;
+        recDBSearcher: Record "DB Search";
+        rrTab: RecordRef;
         rrSearchValuesFieldTmp: RecordRef;
         frFieldEntryNo: FieldRef;
         frFieldRecordID: FieldRef;
@@ -92,23 +85,19 @@ report 50100 "DB Search"
         frFieldName: FieldRef;
         frFieldCurrValue: FieldRef;
         frFieldNewValue: FieldRef;
-        LrecField: Record Field;
-        LrecField2: Record Field;
+        frField: FieldRef;
         nCount: Integer;
         nRecord: Integer;
         nThisRecNo: Integer;
         window: Dialog;
-        recDBSearcher: Record "DB Search";
-        frField: FieldRef;
-        rrTab: RecordRef;
         txtOldValue: Text;
     begin
         LrecField.COPYFILTERS(Field);
         nThisRecNo := DATABASE::"DB Search";
         WITH recDBSearcher DO BEGIN
-            IF FINDLAST THEN BEGIN
-                nCount := "Entry No.";
-            END ELSE
+            IF FINDLAST() THEN
+                nCount := "Entry No."
+            ELSE
                 nCount := 0;
             nRecord := 0;
 
@@ -124,12 +113,10 @@ report 50100 "DB Search"
             frFieldCurrValue := rrSearchValuesFieldTmp.FIELD(7);
             frFieldNewValue := rrSearchValuesFieldTmp.FIELD(8);
 
-            IF LrecField.GETFILTER(TableNo) <> '' THEN
-                LrecField.SETFILTER(TableNo, '1..1000000000&' + LrecField.GETFILTER(TableNo))
-            ELSE
+            IF LrecField.GETFILTER(TableNo) = '' THEN
                 LrecField.SETFILTER(TableNo, '1..1000000000');
             LrecField.SETRANGE(Enabled, TRUE);
-            LrecField.SetRange(ObsoleteState, LrecField.ObsoleteState::No, LrecField.ObsoleteState::Pending);
+            LrecField.SetRange(ObsoleteState, LrecField.ObsoleteState::No);
             IF LrecField.FIND('-') THEN
                 REPEAT
                     IF LrecField.TableNo <> nThisRecNo THEN BEGIN
@@ -154,18 +141,18 @@ report 50100 "DB Search"
                                 EVALUATE(frFieldNewValue, txtOldValue);
                                 nCount += 1;
                                 frFieldEntryNo.VALUE(nCount);
-                                rrSearchValuesFieldTmp.INSERT;
-                            UNTIL rrTab.NEXT = 0;
-                        rrTab.CLOSE;
+                                rrSearchValuesFieldTmp.INSERT();
+                            UNTIL rrTab.NEXT() = 0;
+                        rrTab.CLOSE();
                     END;
-                UNTIL LrecField.NEXT = 0;
-            window.CLOSE;
-            rrSearchValuesFieldTmp.CLOSE;
+                UNTIL LrecField.NEXT() = 0;
+            window.CLOSE();
+            rrSearchValuesFieldTmp.CLOSE();
         END;
 
     end;
 
     var
         SearchPattern: Text[1024];
-        Password: Text[36];
+        UnlockPassword: Text[36];
 }

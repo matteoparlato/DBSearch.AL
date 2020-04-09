@@ -1,5 +1,6 @@
 page 50101 "DBSearch Ledger Entries"
 {
+    UsageCategory = None;
     PageType = Worksheet;
     SourceTable = "DB Search Ledger Entry";
     InsertAllowed = false;
@@ -16,43 +17,58 @@ page 50101 "DBSearch Ledger Entries"
             {
                 field("Entry No."; "Entry No.")
                 {
+                    ToolTip = 'The entry number';
                     ApplicationArea = All;
                 }
                 field("Operation DateTime"; "Operation DateTime")
                 {
+                    ToolTip = 'The DateTime when the operation was executed';
                     ApplicationArea = All;
                 }
                 field("Operation Executed By"; "Operation Executed By")
                 {
+                    ToolTip = 'The UserId who executed the operation';
                     ApplicationArea = All;
                 }
                 field("Operation Description"; "Operation Type")
                 {
+                    ToolTip = 'The type of the operation executed';
                     StyleExpr = StyleExpression;
                     ApplicationArea = All;
                 }
                 field("Table No."; "Table No.")
                 {
+                    ToolTip = 'The number of the table';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Table Name"; "Table Name")
                 {
+                    ToolTip = 'The name of the table';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Field No."; "Field No.")
                 {
+                    ToolTip = 'The number of the field';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Field Name"; "Field Name")
                 {
+                    ToolTip = 'The name of the field';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Current Value"; "Current Value")
                 {
+                    ToolTip = 'The old value of the field';
                     ApplicationArea = All;
+                    Editable = false;
                 }
                 field("Correct Value"; "Correct Value")
                 {
+                    ToolTip = 'The new value of the field';
                     ApplicationArea = All;
                 }
             }
@@ -72,6 +88,7 @@ page 50101 "DBSearch Ledger Entries"
                 PromotedOnly = true;
                 Enabled = CanRestore;
                 PromotedCategory = Process;
+                ToolTip = 'Restore the previous field value of the selected row';
 
                 trigger OnAction()
                 begin
@@ -88,6 +105,7 @@ page 50101 "DBSearch Ledger Entries"
                 PromotedOnly = true;
                 PromotedCategory = Process;
                 Enabled = CanOpen;
+                ToolTip = 'Open the record of the selected row';
 
                 trigger OnAction()
                 begin

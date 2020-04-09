@@ -1,3 +1,8 @@
 {
-    "al.defaultLaunchConfigurationName": "Your own server"
+    "al.defaultLaunchConfigurationName": "Your own server",
+    "al.codeAnalyzers": [
+        "${UICop}",
+        "${CodeCop}"
+    ],
+    "al.enableCodeAnalysis": true
 }
