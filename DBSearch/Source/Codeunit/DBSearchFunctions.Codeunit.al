@@ -164,15 +164,15 @@ codeunit 50100 "DB Search Functions"
     local procedure SaveInLedgerEntries(DBSearch: Record "DB Search"; OptionType: Option)
     var
         DBSearchLedgEntry: Record "DB Search Ledger Entry";
-        DBSearchLedgEntry2: Record "DB Search Ledger Entry";
         NextEntryNo: Integer;
     begin
-        if DBSearchLedgEntry2.FindLast() then
-            NextEntryNo := DBSearchLedgEntry2."Entry No." + 10000
-        else
-            NextEntryNo := 10000;
-
         with DBSearchLedgEntry do begin
+            if FindLast() then
+                NextEntryNo := DBSearchLedgEntry."Entry No." + 10000
+            else
+                NextEntryNo := 10000;
+
+            Reset();
             TransferFields(DBSearch);
             "Entry No." := NextEntryNo;
             "Operation Type" := OptionType;

@@ -19,7 +19,7 @@ table 50100 "DB Search"
             DataClassification = CustomerContent;
             Caption = 'Table No.';
         }
-        field(4; "Table Name"; Text[50])
+        field(4; "Table Name"; Text[30])
         {
             DataClassification = CustomerContent;
             Caption = 'Table Name';
@@ -29,17 +29,17 @@ table 50100 "DB Search"
             DataClassification = CustomerContent;
             Caption = 'Field No.';
         }
-        field(6; "Field Name"; Text[50])
+        field(6; "Field Name"; Text[80])
         {
             Caption = 'Field Name';
             DataClassification = CustomerContent;
         }
-        field(7; "Current Value"; Text[250])
+        field(7; "Current Value"; Text[2048])
         {
             Caption = 'Current Value';
             DataClassification = CustomerContent;
         }
-        field(8; "Correct Value"; Text[250])
+        field(8; "Correct Value"; Text[2048])
         {
             Caption = 'Correct Value';
             DataClassification = CustomerContent;

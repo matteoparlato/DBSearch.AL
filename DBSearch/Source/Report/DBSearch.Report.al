@@ -7,10 +7,62 @@ report 50100 "DB Search"
     {
         dataitem(Field; Field)
         {
-            trigger OnAfterGetRecord()
+            RequestFilterFields = Type, Len, TableNo, FieldName;
+
+            trigger OnPreDataItem()
             begin
-                FindSearchValues();
-                CurrReport.Break();
+                if DBSearch.FindLast() then
+                    NextEntryNo := DBSearch."Entry No." + 10000
+                else
+                    NextEntryNo := 0;
+
+                ProgressDialog.OPEN('Searching in table: ############1', TableNo);
+
+                if GetFilter(TableNo) = '' then
+                    SetFilter(TableNo, '1..1000000000');
+
+                SetRange(Enabled, true);
+                SetRange(Class, Class::Normal);
+                SetRange(ObsoleteState, ObsoleteState::No);
+            end;
+
+            trigger OnAfterGetRecord()
+            var
+                RecRef: RecordRef;
+                FldRed: FieldRef;
+            begin
+                if TableNo <> DATABASE::"DB Search" then begin
+                    RecRef.Open(TableNo);
+
+                    ProgressDialog.Update(1, TableNo);
+
+                    FldRed := RecRef.Field("No.");
+                    FldRed.SetFilter(Pattern);
+                    if RecRef.FindFirst() then
+                        repeat
+                            FldRed := RecRef.Field("No.");
+
+                            NextEntryNo += 10000;
+
+                            DBSearch.Init();
+                            DBSearch."Entry No." := NextEntryNo;
+                            DBSearch."Record ID" := RecRef.RecordId;
+                            DBSearch."Table No." := TableNo;
+                            DBSearch."Table Name" := TableName;
+                            DBSearch."Field No." := "No.";
+                            DBSearch."Field Name" := FieldName;
+                            Evaluate(DBSearch."Current Value", Format(FldRed.Value));
+                            DBSearch."Correct Value" := DBSearch."Current Value";
+
+                            DBSearch.Insert();
+                        until RecRef.Next() = 0;
+                    RecRef.Close();
+                end;
+            end;
+
+            trigger OnPostDataItem()
+            begin
+                ProgressDialog.Close();
             end;
         }
     }
@@ -43,22 +95,23 @@ report 50100 "DB Search"
         var
             Tip: Notification;
         begin
-            Field.SETFILTER(Type, '%1|%2', Field.Type::Code, Field.Type::Text);
-            Field.SETRANGE(Class, Field.Class::Normal);
-            Field.SETRANGE(Enabled, TRUE);
-            field.SetFilter(ObsoleteState, '%1|%2', Field.ObsoleteState::No, Field.ObsoleteState::Pending);
-            Field.SETFILTER(Len, '>=10');
-            Field.SETFILTER(TableNo, '(<5340|>5372)&(<6701|>6721)&(<18008020|>18008035)');
-
             Tip.Message := 'Tip: You can use special symbols (or operators) to further filter the results.';
             Tip.Scope := NotificationScope::LocalScope;
             Tip.Send();
         end;
 
         trigger OnQueryClosePage(CloseAction: Action): Boolean
+        var
+            TypeFilter: Text;
         begin
             if CloseAction = Action::OK then
                 CheckPassword();
+
+            // Check filters
+            if Field.GetFilter(Type) = '' then
+                Field.TestField(Type);
+            if TypeFilter.Contains('Code') or TypeFilter.Contains('Text') then
+                Field.TestField(Len);
         end;
     }
 
@@ -71,62 +124,10 @@ report 50100 "DB Search"
             Error(Text001Txt);
     end;
 
-    local procedure FindSearchValues()
     var
-        LField: Record Field;
         DBSearch: Record "DB Search";
-        RecRef: RecordRef;
-        FldRed: FieldRef;
+        Pattern: Text;
+        Password: Text;
         NextEntryNo: Integer;
         ProgressDialog: Dialog;
-    begin
-        LField.CopyFilters(Field);
-        if DBSearch.FindLast() then
-            NextEntryNo := DBSearch."Entry No." + 10000
-        else
-            NextEntryNo := 0;
-
-        ProgressDialog.OPEN('Searching in table: ############1', LField.TableNo);
-
-        if LField.GetFilter(TableNo) = '' then
-            LField.SetFilter(TableNo, '1..1000000000');
-        LField.SetRange(Enabled, true);
-        LField.SetRange(ObsoleteState, LField.ObsoleteState::No);
-
-        if LField.FindFirst() then
-            repeat
-                if LField.TableNo <> DATABASE::"DB Search" then begin
-                    RecRef.Open(LField.TableNo);
-
-                    ProgressDialog.Update(1, LField.TableNo);
-
-                    FldRed := RecRef.Field(LField."No.");
-                    FldRed.SetFilter(Pattern);
-                    if RecRef.FindFirst() then
-                        repeat
-                            FldRed := RecRef.Field(LField."No.");
-
-                            NextEntryNo += 10000;
-
-                            DBSearch.Init();
-                            DBSearch."Entry No." := NextEntryNo;
-                            DBSearch."Record ID" := RecRef.RecordId;
-                            DBSearch."Table No." := LField.TableNo;
-                            DBSearch."Table Name" := LField.TableName;
-                            DBSearch."Field No." := LField."No.";
-                            DBSearch."Field Name" := LField.FieldName;
-                            Evaluate(DBSearch."Current Value", FldRed.Value);
-                            DBSearch."Correct Value" := DBSearch."Current Value";
-
-                            DBSearch.Insert();
-                        until RecRef.Next() = 0;
-                    RecRef.Close();
-                end;
-            until LField.Next() = 0;
-        ProgressDialog.Close();
-    end;
-
-    var
-        Pattern: Text[1024];
-        Password: Text[36];
 }
