@@ -71,7 +71,6 @@ table 50101 "DB Search Ledger Entry"
         }
     }
 
-
     trigger OnInsert()
     begin
         "Operation DateTime" := CurrentDateTime;

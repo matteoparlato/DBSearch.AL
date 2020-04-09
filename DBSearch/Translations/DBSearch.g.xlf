@@ -163,25 +163,25 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report DB Search - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Report 2922276700 - Control 3994357868 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Report 2922276700 - Control 2327570666 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Text to search</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report DB Search - Control txtFindString - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report DB Search - Control SearchPattern - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Report 2922276700 - Control 3994357868 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Report 2922276700 - Control 2327570666 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>The value to search in tables.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report DB Search - Control txtFindString - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report DB Search - Control SearchPattern - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Report 2922276700 - Control 2575460289 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Report 2922276700 - Control 1250697793 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Password</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report DB Search - Control Password - Property Caption</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report DB Search - Control UnlockPassword - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Report 2922276700 - Control 2575460289 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+        <trans-unit id="Report 2922276700 - Control 1250697793 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>The password to unlock the report execution.</source>
           <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report DB Search - Control Password - Property ToolTip</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report DB Search - Control UnlockPassword - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Table 3114408395 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>DB Search Ledger Entry</source>

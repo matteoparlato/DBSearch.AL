@@ -23,13 +23,13 @@ report 50100 "DB Search"
             {
                 group(Options)
                 {
-                    field(txtFindString; SearchPattern)
+                    field(SearchPattern; Pattern)
                     {
                         Caption = 'Text to search';
                         ToolTip = 'The value to search in tables.';
                         ApplicationArea = All;
                     }
-                    field(Password; UnlockPassword)
+                    field(UnlockPassword; Password)
                     {
                         Caption = 'Password';
                         ToolTip = 'The password to unlock the report execution.';
@@ -67,14 +67,14 @@ report 50100 "DB Search"
     var
         Text001Txt: TextConst ENU = 'The specified password is not correct.', ITA = 'La password specificata non è corretta';
     begin
-        if UnlockPassword <> 'a8a0c8e9-bdc8-4719-9e3b-3114328830af' then
+        if Password <> 'a8a0c8e9-bdc8-4719-9e3b-3114328830af' then
             Error(Text001Txt);
     end;
 
     local procedure FindSearchValues()
     var
-        LrecField: Record Field;
-        recDBSearcher: Record "DB Search";
+        LField: Record Field;
+        DBSearch: Record "DB Search";
         rrTab: RecordRef;
         rrSearchValuesFieldTmp: RecordRef;
         frFieldEntryNo: FieldRef;
@@ -86,73 +86,66 @@ report 50100 "DB Search"
         frFieldCurrValue: FieldRef;
         frFieldNewValue: FieldRef;
         frField: FieldRef;
-        nCount: Integer;
-        nRecord: Integer;
-        nThisRecNo: Integer;
-        window: Dialog;
+        NextEntryNo: Integer;
+        ProgressDialog: Dialog;
         txtOldValue: Text;
     begin
-        LrecField.COPYFILTERS(Field);
-        nThisRecNo := DATABASE::"DB Search";
-        WITH recDBSearcher DO BEGIN
-            IF FINDLAST() THEN
-                nCount := "Entry No."
-            ELSE
-                nCount := 0;
-            nRecord := 0;
+        LField.CopyFilters(Field);
+        if DBSearch.FindLast() then
+            NextEntryNo := DBSearch."Entry No." + 10000
+        else
+            NextEntryNo := 0;
 
-            window.OPEN('Tab: ' + '############1\' + 'Rec: ' + '############2', LrecField.TableNo, nRecord);
+        ProgressDialog.OPEN('Searching in table: ############1', LField.TableNo);
 
-            rrSearchValuesFieldTmp.OPEN(nThisRecNo);
-            frFieldEntryNo := rrSearchValuesFieldTmp.FIELD(1);
-            frFieldRecordID := rrSearchValuesFieldTmp.FIELD(2);
-            frFieldTabNo := rrSearchValuesFieldTmp.FIELD(3);
-            frTableName := rrSearchValuesFieldTmp.FIELD(4);
-            frFieldFieldNo := rrSearchValuesFieldTmp.FIELD(5);
-            frFieldName := rrSearchValuesFieldTmp.FIELD(6);
-            frFieldCurrValue := rrSearchValuesFieldTmp.FIELD(7);
-            frFieldNewValue := rrSearchValuesFieldTmp.FIELD(8);
+        rrSearchValuesFieldTmp.Open(DATABASE::"DB Search");
+        frFieldEntryNo := rrSearchValuesFieldTmp.Field(1);
+        frFieldRecordID := rrSearchValuesFieldTmp.Field(2);
+        frFieldTabNo := rrSearchValuesFieldTmp.Field(3);
+        frTableName := rrSearchValuesFieldTmp.Field(4);
+        frFieldFieldNo := rrSearchValuesFieldTmp.Field(5);
+        frFieldName := rrSearchValuesFieldTmp.Field(6);
+        frFieldCurrValue := rrSearchValuesFieldTmp.Field(7);
+        frFieldNewValue := rrSearchValuesFieldTmp.Field(8);
 
-            IF LrecField.GETFILTER(TableNo) = '' THEN
-                LrecField.SETFILTER(TableNo, '1..1000000000');
-            LrecField.SETRANGE(Enabled, TRUE);
-            LrecField.SetRange(ObsoleteState, LrecField.ObsoleteState::No);
-            IF LrecField.FIND('-') THEN
-                REPEAT
-                    IF LrecField.TableNo <> nThisRecNo THEN BEGIN
-                        nRecord := 0;
-                        rrTab.OPEN(LrecField.TableNo);
-                        frField := rrTab.FIELD(LrecField."No.");
-                        frField.SETFILTER(SearchPattern);
-                        IF rrTab.FIND('-') THEN
-                            REPEAT
-                                nRecord += 1;
+        if LField.GetFilter(TableNo) = '' then
+            LField.SetFilter(TableNo, '1..1000000000');
+        LField.SetRange(Enabled, true);
+        LField.SetRange(ObsoleteState, LField.ObsoleteState::No);
 
-                                window.UPDATE(1, LrecField.TableNo);
-                                window.UPDATE(2, nRecord);
-                                frField := rrTab.FIELD(LrecField."No.");
-                                txtOldValue := FORMAT(frField.VALUE);
-                                frFieldTabNo.VALUE(LrecField.TableNo);
-                                frTableName.VALUE(LrecField.TableName);
-                                frFieldFieldNo.VALUE(LrecField."No.");
-                                frFieldName.VALUE(LrecField.FieldName);
-                                EVALUATE(frFieldCurrValue, txtOldValue);
-                                frFieldRecordID.VALUE(rrTab.RECORDID);
-                                EVALUATE(frFieldNewValue, txtOldValue);
-                                nCount += 1;
-                                frFieldEntryNo.VALUE(nCount);
-                                rrSearchValuesFieldTmp.INSERT();
-                            UNTIL rrTab.NEXT() = 0;
-                        rrTab.CLOSE();
-                    END;
-                UNTIL LrecField.NEXT() = 0;
-            window.CLOSE();
-            rrSearchValuesFieldTmp.CLOSE();
-        END;
+        if LField.FindFirst() then
+            repeat
+                if LField.TableNo <> DATABASE::"DB Search" then begin
+                    rrTab.Open(LField.TableNo);
 
+                    ProgressDialog.Update(1, LField.TableNo);
+
+                    frField := rrTab.Field(LField."No.");
+                    frField.SetFilter(Pattern);
+                    if rrTab.FindFirst() then
+                        repeat
+                            frField := rrTab.Field(LField."No.");
+                            txtOldValue := Format(frField.Value);
+                            frFieldTabNo.Value(LField.TableNo);
+                            frTableName.Value(LField.TableName);
+                            frFieldFieldNo.Value(LField."No.");
+                            frFieldName.Value(LField.FieldName);
+                            EVALUATE(frFieldCurrValue, txtOldValue);
+                            frFieldRecordID.Value(rrTab.RecordId);
+                            EVALUATE(frFieldNewValue, txtOldValue);
+
+                            NextEntryNo += 10000;
+                            frFieldEntryNo.Value(NextEntryNo);
+                            rrSearchValuesFieldTmp.Insert();
+                        until rrTab.Next() = 0;
+                    rrTab.Close();
+                end;
+            until LField.Next() = 0;
+        ProgressDialog.Close();
+        rrSearchValuesFieldTmp.Close();
     end;
 
     var
-        SearchPattern: Text[1024];
-        UnlockPassword: Text[36];
+        Pattern: Text[1024];
+        Password: Text[36];
 }
