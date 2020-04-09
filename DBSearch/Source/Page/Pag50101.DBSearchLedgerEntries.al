@@ -21,6 +21,10 @@ page 50101 "DBSearch Ledger Entries"
                 {
                     ApplicationArea = All;
                 }
+                field("Operation Executed By"; "Operation Executed By")
+                {
+                    ApplicationArea = All;
+                }
                 field("Operation Description"; "Operation Type")
                 {
                     StyleExpr = StyleExpression;

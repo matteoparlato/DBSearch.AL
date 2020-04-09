@@ -173,8 +173,7 @@ codeunit 50100 "DB Search Functions"
             TransferFields(DBSearch);
             "Entry No." := NextEntryNo;
             "Operation Type" := OptionType;
-            "Operation DateTime" := CurrentDateTime;
-            Insert();
+            Insert(true);
         end;
     end;
 

@@ -53,7 +53,12 @@ table 50101 "DB Search Ledger Entry"
         }
         field(102; "Operation DateTime"; DateTime)
         {
-            Caption = 'Creation DateTime';
+            Caption = 'Operation DateTime';
+            DataClassification = CustomerContent;
+        }
+        field(103; "Operation Executed By"; Code[250])
+        {
+            Caption = 'Operation Executed By';
             DataClassification = CustomerContent;
         }
     }
@@ -66,4 +71,10 @@ table 50101 "DB Search Ledger Entry"
         }
     }
 
+
+    trigger OnInsert()
+    begin
+        "Operation DateTime" := CurrentDateTime;
+        "Operation Executed By" := UserId;
+    end;
 }
