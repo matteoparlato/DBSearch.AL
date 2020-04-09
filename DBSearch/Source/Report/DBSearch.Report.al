@@ -75,20 +75,10 @@ report 50100 "DB Search"
     var
         LField: Record Field;
         DBSearch: Record "DB Search";
-        rrTab: RecordRef;
-        rrSearchValuesFieldTmp: RecordRef;
-        frFieldEntryNo: FieldRef;
-        frFieldRecordID: FieldRef;
-        frFieldTabNo: FieldRef;
-        frTableName: FieldRef;
-        frFieldFieldNo: FieldRef;
-        frFieldName: FieldRef;
-        frFieldCurrValue: FieldRef;
-        frFieldNewValue: FieldRef;
-        frField: FieldRef;
+        RecRef: RecordRef;
+        FldRed: FieldRef;
         NextEntryNo: Integer;
         ProgressDialog: Dialog;
-        txtOldValue: Text;
     begin
         LField.CopyFilters(Field);
         if DBSearch.FindLast() then
@@ -98,16 +88,6 @@ report 50100 "DB Search"
 
         ProgressDialog.OPEN('Searching in table: ############1', LField.TableNo);
 
-        rrSearchValuesFieldTmp.Open(DATABASE::"DB Search");
-        frFieldEntryNo := rrSearchValuesFieldTmp.Field(1);
-        frFieldRecordID := rrSearchValuesFieldTmp.Field(2);
-        frFieldTabNo := rrSearchValuesFieldTmp.Field(3);
-        frTableName := rrSearchValuesFieldTmp.Field(4);
-        frFieldFieldNo := rrSearchValuesFieldTmp.Field(5);
-        frFieldName := rrSearchValuesFieldTmp.Field(6);
-        frFieldCurrValue := rrSearchValuesFieldTmp.Field(7);
-        frFieldNewValue := rrSearchValuesFieldTmp.Field(8);
-
         if LField.GetFilter(TableNo) = '' then
             LField.SetFilter(TableNo, '1..1000000000');
         LField.SetRange(Enabled, true);
@@ -116,33 +96,34 @@ report 50100 "DB Search"
         if LField.FindFirst() then
             repeat
                 if LField.TableNo <> DATABASE::"DB Search" then begin
-                    rrTab.Open(LField.TableNo);
+                    RecRef.Open(LField.TableNo);
 
                     ProgressDialog.Update(1, LField.TableNo);
 
-                    frField := rrTab.Field(LField."No.");
-                    frField.SetFilter(Pattern);
-                    if rrTab.FindFirst() then
+                    FldRed := RecRef.Field(LField."No.");
+                    FldRed.SetFilter(Pattern);
+                    if RecRef.FindFirst() then
                         repeat
-                            frField := rrTab.Field(LField."No.");
-                            txtOldValue := Format(frField.Value);
-                            frFieldTabNo.Value(LField.TableNo);
-                            frTableName.Value(LField.TableName);
-                            frFieldFieldNo.Value(LField."No.");
-                            frFieldName.Value(LField.FieldName);
-                            EVALUATE(frFieldCurrValue, txtOldValue);
-                            frFieldRecordID.Value(rrTab.RecordId);
-                            EVALUATE(frFieldNewValue, txtOldValue);
+                            FldRed := RecRef.Field(LField."No.");
 
                             NextEntryNo += 10000;
-                            frFieldEntryNo.Value(NextEntryNo);
-                            rrSearchValuesFieldTmp.Insert();
-                        until rrTab.Next() = 0;
-                    rrTab.Close();
+
+                            DBSearch.Init();
+                            DBSearch."Entry No." := NextEntryNo;
+                            DBSearch."Record ID" := RecRef.RecordId;
+                            DBSearch."Table No." := LField.TableNo;
+                            DBSearch."Table Name" := LField.TableName;
+                            DBSearch."Field No." := LField."No.";
+                            DBSearch."Field Name" := LField.FieldName;
+                            Evaluate(DBSearch."Current Value", FldRed.Value);
+                            DBSearch."Correct Value" := DBSearch."Current Value";
+
+                            DBSearch.Insert();
+                        until RecRef.Next() = 0;
+                    RecRef.Close();
                 end;
             until LField.Next() = 0;
         ProgressDialog.Close();
-        rrSearchValuesFieldTmp.Close();
     end;
 
     var
