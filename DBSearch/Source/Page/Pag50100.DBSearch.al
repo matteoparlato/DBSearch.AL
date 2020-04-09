@@ -7,6 +7,7 @@ page 50100 "DB Search"
     InsertAllowed = false;
     DeleteAllowed = false;
     ModifyAllowed = true;
+    PromotedActionCategories = 'Process';
 
     layout
     {
@@ -62,6 +63,7 @@ page 50100 "DB Search"
                 Promoted = true;
                 PromotedIsBig = true;
                 PromotedOnly = true;
+                PromotedCategory = Process;
 
                 trigger OnAction()
                 begin
@@ -76,6 +78,7 @@ page 50100 "DB Search"
                 Promoted = true;
                 PromotedIsBig = true;
                 PromotedOnly = true;
+                PromotedCategory = Process;
 
                 trigger OnAction()
                 begin
@@ -90,6 +93,7 @@ page 50100 "DB Search"
                 Promoted = true;
                 PromotedIsBig = true;
                 PromotedOnly = true;
+                PromotedCategory = Process;
 
                 trigger OnAction()
                 begin
@@ -104,6 +108,7 @@ page 50100 "DB Search"
                 Promoted = true;
                 PromotedIsBig = true;
                 PromotedOnly = true;
+                PromotedCategory = Process;
 
                 trigger OnAction()
                 begin
@@ -120,6 +125,7 @@ page 50100 "DB Search"
                 Promoted = true;
                 PromotedIsBig = true;
                 PromotedOnly = true;
+                PromotedCategory = Process;
 
                 trigger OnAction()
                 begin
@@ -134,6 +140,7 @@ page 50100 "DB Search"
                 Promoted = true;
                 PromotedIsBig = true;
                 PromotedOnly = true;
+                PromotedCategory = Process;
 
                 trigger OnAction()
                 begin
@@ -142,6 +149,16 @@ page 50100 "DB Search"
             }
         }
     }
+
+    trigger OnClosePage()
+    var
+        Text0001: TextConst ENU = 'Clear session results? Other users may apply unwanted chages to data.';
+    begin
+        Reset();
+        if Count() <> 0 then
+            if Confirm(Text0001) then
+                DeleteAll();
+    end;
 
     var
         DBSearchFunctions: Codeunit "DB Search Functions";

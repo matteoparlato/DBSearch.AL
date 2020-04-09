@@ -103,9 +103,11 @@ codeunit 50100 "DB Search Functions"
         RecRef: RecordRef;
         FldRef: FieldRef;
         OptionValue: Integer;
+        DBSearch: Record "DB Search";
         Options: TextConst ENU = 'With validation,Without validation', ITA = 'Con validazione,Senza validazione';
         Text001: TextConst ENU = 'Restore selected value?', ITA = 'Ripristinare il valore selezionato?';
         Text002: TextConst ENU = 'Restore completed', ITA = 'Ripristino completato';
+        Text003: TextConst ENU = 'The value you are trying to restore has changed since you applied the correction. Continue?\\Current value: %1\Correction value: %2\Value to restore: %3';
     begin
         OptionValue := Dialog.StrMenu(Options, 1, Text001);
         if OptionValue = 0 then
@@ -117,6 +119,12 @@ codeunit 50100 "DB Search Functions"
                 FldRef := RecRef.Field("Field No.");
 
                 OnBeforeRestoreField();
+
+                // Check if value has changed since the correction
+                if Format(FldRef.Value) <> "Correct Value" then
+                    if not Confirm(StrSubstNo(Text003, FldRef.Value, "Correct Value", "Current Value")) then begin
+                        exit;
+                    end;
 
                 // Insert the original field value with validation
                 if OptionValue = 1 then begin
@@ -157,7 +165,7 @@ codeunit 50100 "DB Search Functions"
         Page.Run(0, RecVar);
     end;
 
-    procedure SaveInLedgerEntries(DBSearch: Record "DB Search"; OptionType: Option)
+    local procedure SaveInLedgerEntries(DBSearch: Record "DB Search"; OptionType: Option)
     var
         DBSearchLedgEntry: Record "DB Search Ledger Entry";
         DBSearchLedgEntry2: Record "DB Search Ledger Entry";

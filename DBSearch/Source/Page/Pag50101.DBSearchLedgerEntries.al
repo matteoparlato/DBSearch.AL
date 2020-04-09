@@ -6,6 +6,7 @@ page 50101 "DBSearch Ledger Entries"
     DeleteAllowed = false;
     ModifyAllowed = false;
     Editable = false;
+    PromotedActionCategories = 'Process';
 
     layout
     {
@@ -70,6 +71,7 @@ page 50101 "DBSearch Ledger Entries"
                 PromotedIsBig = true;
                 PromotedOnly = true;
                 Enabled = CanRestore;
+                PromotedCategory = Process;
 
                 trigger OnAction()
                 begin
@@ -84,6 +86,8 @@ page 50101 "DBSearch Ledger Entries"
                 Promoted = true;
                 PromotedIsBig = true;
                 PromotedOnly = true;
+                PromotedCategory = Process;
+                Enabled = CanOpen;
 
                 trigger OnAction()
                 begin
@@ -95,11 +99,13 @@ page 50101 "DBSearch Ledger Entries"
 
     trigger OnAfterGetRecord()
     begin
+        CanOpen := true;
         CanRestore := false;
         case "Operation Type" of
             "Operation Type"::Deleted:
                 begin
                     StyleExpression := 'Unfavorable';
+                    CanOpen := false;
                 end;
             "Operation Type"::Modified:
                 begin
@@ -111,6 +117,7 @@ page 50101 "DBSearch Ledger Entries"
     end;
 
     var
+        CanOpen: Boolean;
         CanRestore: Boolean;
         DBSearchFunctions: Codeunit "DB Search Functions";
         StyleExpression: Text;

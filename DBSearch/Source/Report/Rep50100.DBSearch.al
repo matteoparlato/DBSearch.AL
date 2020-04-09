@@ -22,8 +22,9 @@ report 50100 "DB Search"
             {
                 group(Options)
                 {
-                    field(txtFindString; txtFindString)
+                    field(txtFindString; SearchPattern)
                     {
+                        Caption = 'Text to search';
                         ApplicationArea = All;
                     }
                     field(Password; Password)
@@ -47,6 +48,8 @@ report 50100 "DB Search"
         }
 
         trigger OnOpenPage()
+        var
+            Tip: Notification;
         begin
             Field.SETFILTER(Type, '%1|%2', Field.Type::Code, Field.Type::Text);
             Field.SETRANGE(Class, Field.Class::Normal);
@@ -54,6 +57,10 @@ report 50100 "DB Search"
             field.SetFilter(ObsoleteState, '%1|%2', Field.ObsoleteState::No, Field.ObsoleteState::Pending);
             Field.SETFILTER(Len, '>=10');
             Field.SETFILTER(TableNo, '(<5340|>5372)&(<6701|>6721)&(<18008020|>18008035)');
+
+            Tip.Message := 'Tip: You can use special symbols (or operators) to further filter the results.';
+            Tip.Scope := NotificationScope::LocalScope;
+            Tip.Send();
         end;
 
         trigger OnQueryClosePage(CloseAction: Action): Boolean
@@ -129,7 +136,7 @@ report 50100 "DB Search"
                         nRecord := 0;
                         rrTab.OPEN(LrecField.TableNo);
                         frField := rrTab.FIELD(LrecField."No.");
-                        frField.SETFILTER(txtFindString);
+                        frField.SETFILTER(SearchPattern);
                         IF rrTab.FIND('-') THEN
                             REPEAT
                                 nRecord += 1;
@@ -159,6 +166,6 @@ report 50100 "DB Search"
     end;
 
     var
-        txtFindString: Text[1024];
+        SearchPattern: Text[1024];
         Password: Text[36];
 }
