@@ -1,15 +1,15 @@
 {
   "id": "5b11da2d-6477-48aa-9335-9c32fc0d4dcc",
   "name": "DBSearch",
-  "publisher": "Default publisher",
+  "publisher": "DBS",
   "version": "1.0.0.0",
-  "brief": "",
-  "description": "",
-  "privacyStatement": "",
-  "EULA": "",
-  "help": "",
-  "url": "",
-  "logo": "",
+  "brief": "DBSearch for Business Central",
+  "description": "DBSearch (DBS) for Business Central\n\nPassword:\na8a0c8e9-bdc8-4719-9e3b-3114328830af",
+  "privacyStatement": "https://github.com/matteoparlato/DBSearch.AL",
+  "EULA": "https://github.com/matteoparlato/DBSearch.AL",
+  "help": "https://github.com/matteoparlato/DBSearch.AL",
+  "url": "https://github.com/matteoparlato/DBSearch.AL",
+  "logo": "./Resources/Logo.png",
   "dependencies": [
     {
       "id": "63ca2fa4-4f03-4f2b-a480-172fef340d3f",
@@ -25,6 +25,7 @@
     }
   ],
   "screenshots": [],
+  "features": [ "TranslationFile", "GenerateCaptions" ],
   "platform": "16.0.0.0",
   "idRanges": [
     {

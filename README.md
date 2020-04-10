@@ -1,2 +1,2 @@
 # DBSearch.AL
-Repository of DBSearh, a Business Central Extension
+Repository of DBSearch, a Business Central Extension
