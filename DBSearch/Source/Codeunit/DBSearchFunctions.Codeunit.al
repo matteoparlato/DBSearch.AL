@@ -148,8 +148,6 @@ codeunit 50100 "DB Search Functions"
     procedure SearchValues()
     begin
         Report.RunModal(Report::"DB Search");
-
-        OnAfterSearch();
     end;
 
     procedure ShowRecord(RecId: RecordId)
@@ -212,11 +210,6 @@ codeunit 50100 "DB Search Functions"
 
     [IntegrationEvent(false, false)]
     local procedure OnAfterRestoreField()
-    begin
-    end;
-
-    [IntegrationEvent(false, false)]
-    local procedure OnAfterSearch()
     begin
     end;
 }
