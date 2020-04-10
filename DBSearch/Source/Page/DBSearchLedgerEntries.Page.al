@@ -135,8 +135,8 @@ page 50101 "DBSearch Ledger Entries"
     end;
 
     var
+        DBSearchFunctions: Codeunit "DB Search Functions";
         CanOpen: Boolean;
         CanRestore: Boolean;
-        DBSearchFunctions: Codeunit "DB Search Functions";
         StyleExpression: Text;
 }

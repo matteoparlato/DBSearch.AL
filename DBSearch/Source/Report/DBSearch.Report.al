@@ -104,14 +104,19 @@ report 50100 "DB Search"
         var
             TypeFilter: Text;
         begin
-            if CloseAction = Action::OK then
+            if CloseAction = Action::OK then begin
                 CheckPassword();
 
-            // Check filters
-            if Field.GetFilter(Type) = '' then
-                Field.TestField(Type);
-            if TypeFilter.Contains('Code') or TypeFilter.Contains('Text') then
-                Field.TestField(Len);
+                // Type filter is mandatory
+                if Field.GetFilter(Type) = '' then
+                    Field.TestField(Type);
+
+                // Len filter is mandatory with 
+                TypeFilter := Field.GetFilter(Type);
+                if TypeFilter.Contains('Code') or TypeFilter.Contains('Text') then
+                    if (Field.GetFilter(Len) = '') then
+                        Field.TestField(Len);
+            end;
         end;
     }
 
