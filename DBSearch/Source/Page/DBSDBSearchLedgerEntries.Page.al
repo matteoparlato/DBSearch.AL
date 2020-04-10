@@ -1,8 +1,8 @@
-page 50101 "DBSearch Ledger Entries"
+page 50101 "DBS DBSearch Ledger Entries"
 {
     UsageCategory = None;
     PageType = Worksheet;
-    SourceTable = "DB Search Ledger Entry";
+    SourceTable = "DBS DB Search Ledger Entry";
     InsertAllowed = false;
     DeleteAllowed = false;
     ModifyAllowed = false;
@@ -135,7 +135,7 @@ page 50101 "DBSearch Ledger Entries"
     end;
 
     var
-        DBSearchFunctions: Codeunit "DB Search Functions";
+        DBSearchFunctions: Codeunit "DBS DB Search Functions";
         CanOpen: Boolean;
         CanRestore: Boolean;
         StyleExpression: Text;

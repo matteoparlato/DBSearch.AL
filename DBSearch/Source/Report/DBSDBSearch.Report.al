@@ -1,4 +1,4 @@
-report 50100 "DB Search"
+report 50100 "DBS DB Search"
 {
     UsageCategory = None;
     ProcessingOnly = true;
@@ -30,7 +30,7 @@ report 50100 "DB Search"
                 RecRef: RecordRef;
                 FldRed: FieldRef;
             begin
-                if TableNo <> DATABASE::"DB Search" then begin
+                if TableNo <> DATABASE::"DBS DB Search" then begin
                     RecRef.Open(TableNo);
 
                     ProgressDialog.Update(1, TableNo);
@@ -150,7 +150,7 @@ report 50100 "DB Search"
     end;
 
     var
-        DBSearch: Record "DB Search";
+        DBSearch: Record "DBS DB Search";
         Pattern: Text;
         NewValue: Text;
         Password: Text;

@@ -1,8 +1,8 @@
-codeunit 50100 "DB Search Functions"
+codeunit 50100 "DBS DB Search Functions"
 {
     Permissions = tabledata 17 = rmd, tabledata 18 = rmd, tabledata 21 = rmd, tabledata 23 = rmd, tabledata 24 = rmd, tabledata 25 = rmd, tabledata 27 = rmd, tabledata 32 = rmd, tabledata 36 = rmd, tabledata 37 = rmd, tabledata 38 = rmd, tabledata 39 = rmd, tabledata 98 = rmd, tabledata 112 = rmd, tabledata 113 = rmd, tabledata 114 = rmd, tabledata 115 = rmd, tabledata 122 = rmd, tabledata 123 = rmd, tabledata 124 = rmd, tabledata 125 = rmd, tabledata 169 = rmd, tabledata 253 = rmd, tabledata 254 = rmd, tabledata 336 = rmd, tabledata 337 = rmd, tabledata 355 = rmd, tabledata 379 = rmd, tabledata 380 = rmd, tabledata 1104 = rmd, tabledata 5050 = rmd, tabledata 5600 = rmd, tabledata 5601 = rmd, tabledata 5612 = rmd, tabledata 5802 = rmd, tabledata 7312 = rmd, tabledata 7318 = rmd, tabledata 7319 = rmd, tabledata 7322 = rmd, tabledata 7323 = rmd, tabledata 12114 = rmd, tabledata 12116 = rmd, tabledata 12142 = rmd, tabledata 12144 = rmd, tabledata 12147 = rmd, tabledata 12149 = rmd, tabledata 12171 = rmd, tabledata 12183 = rmd, tabledata 12184 = rmd, tabledata 110 = rmd, tabledata 111 = rmd, tabledata 120 = rmd, tabledata 121 = rmd, tabledata 271 = rmd, tabledata 5740 = rmd, tabledata 5741 = rmd, tabledata 5744 = rmd, tabledata 5745 = rmd, tabledata 6650 = rmd, tabledata 6651 = rmd, tabledata 7316 = rmd, tabledata 7317 = rmd, tabledata 7320 = rmd, tabledata 7321 = rmd;
 
-    procedure CorrectValues(DBSearch: Record "DB Search")
+    procedure CorrectValues(DBSearch: Record "DBS DB Search")
     var
         RecRef: RecordRef;
         FldRef: FieldRef;
@@ -50,7 +50,7 @@ codeunit 50100 "DB Search Functions"
         end;
     end;
 
-    procedure DeleteRecords(DBSearch: Record "DB Search")
+    procedure DeleteRecords(DBSearch: Record "DBS DB Search")
     var
         RecRef: RecordRef;
         OptionValue: Integer;
@@ -98,7 +98,7 @@ codeunit 50100 "DB Search Functions"
         end;
     end;
 
-    procedure RestoreValue(DBSearchLedgEntry: Record "DB Search Ledger Entry")
+    procedure RestoreValue(DBSearchLedgEntry: Record "DBS DB Search Ledger Entry")
     var
         RecRef: RecordRef;
         FldRef: FieldRef;
@@ -147,7 +147,7 @@ codeunit 50100 "DB Search Functions"
 
     procedure SearchValues()
     begin
-        Report.RunModal(Report::"DB Search");
+        Report.RunModal(Report::"DBS DB Search");
     end;
 
     procedure ShowRecord(RecId: RecordId)
@@ -160,9 +160,9 @@ codeunit 50100 "DB Search Functions"
         Page.Run(0, RecVar);
     end;
 
-    local procedure SaveInLedgerEntries(DBSearch: Record "DB Search"; OptionType: Option)
+    local procedure SaveInLedgerEntries(DBSearch: Record "DBS DB Search"; OptionType: Option)
     var
-        DBSearchLedgEntry: Record "DB Search Ledger Entry";
+        DBSearchLedgEntry: Record "DBS DB Search Ledger Entry";
         NextEntryNo: Integer;
     begin
         with DBSearchLedgEntry do begin
@@ -180,7 +180,7 @@ codeunit 50100 "DB Search Functions"
     end;
 
     var
-        DBSearchLedgEntry: Record "DB Search Ledger Entry";
+        DBSearchLedgEntry: Record "DBS DB Search Ledger Entry";
 
 
     [IntegrationEvent(false, false)]

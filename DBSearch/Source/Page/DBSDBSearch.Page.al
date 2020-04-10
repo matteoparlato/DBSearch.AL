@@ -1,13 +1,14 @@
-page 50100 "DB Search"
+page 50100 "DBS DB Search"
 {
     PageType = Worksheet;
     ApplicationArea = All;
     UsageCategory = Administration;
-    SourceTable = "DB Search";
+    SourceTable = "DBS DB Search";
     InsertAllowed = false;
     DeleteAllowed = false;
     ModifyAllowed = true;
     PromotedActionCategories = 'Process';
+    Caption = 'DB Search (DBS)';
 
     layout
     {
@@ -157,7 +158,7 @@ page 50100 "DB Search"
 
                 trigger OnAction()
                 begin
-                    Page.RunModal(Page::"DBSearch Ledger Entries");
+                    Page.RunModal(Page::"DBS DBSearch Ledger Entries");
                 end;
             }
         }
@@ -174,5 +175,5 @@ page 50100 "DB Search"
     end;
 
     var
-        DBSearchFunctions: Codeunit "DB Search Functions";
+        DBSearchFunctions: Codeunit "DBS DB Search Functions";
 }

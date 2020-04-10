@@ -1,4 +1,4 @@
-table 50100 "DB Search"
+table 50100 "DBS DB Search"
 {
     DataClassification = CustomerContent;
 

@@ -1,4 +1,4 @@
-table 50101 "DB Search Ledger Entry"
+table 50101 "DBS DB Search Ledger Entry"
 {
     DataClassification = CustomerContent;
 
