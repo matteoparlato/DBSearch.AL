@@ -24,7 +24,7 @@ codeunit 50100 "DBS DB Search Functions"
                         RecRef.Get("Record ID");
                         FldRef := RecRef.Field("Field No.");
 
-                        OnBeforeCorrection();
+                        OnBeforeCorrection(FldRef);
 
                         // Modify the field with validation
                         if OptionValue = 1 then begin
@@ -36,7 +36,7 @@ codeunit 50100 "DBS DB Search Functions"
                             RecRef.Modify();
                         end;
 
-                        OnAfterCorrection();
+                        OnAfterCorrection(FldRef);
 
                         // Saves original record in ledger entries
                         SaveInLedgerEntries(DBSearch, DBSearchLedgEntry."Operation Type"::Modified);
@@ -76,7 +76,7 @@ codeunit 50100 "DBS DB Search Functions"
                 repeat
                     RecRef.GET("Record ID");
 
-                    OnBeforeDelete();
+                    OnBeforeDelete(RecRef);
 
                     // Delete the record with validation
                     if OptionValue = 1 then
@@ -85,7 +85,7 @@ codeunit 50100 "DBS DB Search Functions"
                         // Delete the record without validation
                         RecRef.Delete();
 
-                    OnAfterDelete();
+                    OnAfterDelete(RecRef);
 
                     // Save original record in ledger entries
                     SaveInLedgerEntries(DBSearch, DBSearchLedgEntry."Operation Type"::Deleted);
@@ -117,7 +117,7 @@ codeunit 50100 "DBS DB Search Functions"
                 RecRef.GET("Record ID");
                 FldRef := RecRef.Field("Field No.");
 
-                OnBeforeRestoreField();
+                OnBeforeRestoreField(FldRef);
 
                 // Check if value has changed since the correction
                 if Format(FldRef.Value) <> "Correct Value" then
@@ -134,7 +134,7 @@ codeunit 50100 "DBS DB Search Functions"
                     RecRef.Modify();
                 end;
 
-                OnAfterRestoreField();
+                OnAfterRestoreField(FldRef);
 
                 // Update original record in ledger entries
                 "Operation Type" := "Operation Type"::Restored;
@@ -184,32 +184,32 @@ codeunit 50100 "DBS DB Search Functions"
 
 
     [IntegrationEvent(false, false)]
-    local procedure OnBeforeCorrection()
+    local procedure OnBeforeCorrection(FldRef: FieldRef)
     begin
     end;
 
     [IntegrationEvent(false, false)]
-    local procedure OnAfterCorrection()
+    local procedure OnAfterCorrection(FldRef: FieldRef)
     begin
     end;
 
     [IntegrationEvent(false, false)]
-    local procedure OnBeforeDelete()
+    local procedure OnBeforeDelete(RecRef: RecordRef)
     begin
     end;
 
     [IntegrationEvent(false, false)]
-    local procedure OnAfterDelete()
+    local procedure OnAfterDelete(RecRef: RecordRef)
     begin
     end;
 
     [IntegrationEvent(false, false)]
-    local procedure OnBeforeRestoreField()
+    local procedure OnBeforeRestoreField(FldRef: FieldRef)
     begin
     end;
 
     [IntegrationEvent(false, false)]
-    local procedure OnAfterRestoreField()
+    local procedure OnAfterRestoreField(FldRef: FieldRef)
     begin
     end;
 }
