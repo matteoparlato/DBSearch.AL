@@ -165,7 +165,7 @@ page 50100 "DB Search"
 
     trigger OnClosePage()
     var
-        Text001Txt: TextConst ENU = 'Clear session results? Other users may apply unwanted chages to data.';
+        Text001Txt: Label 'Clear session results? Other users may apply unwanted chages to data.';
     begin
         Reset();
         if Count() <> 0 then

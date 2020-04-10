@@ -7,9 +7,9 @@ codeunit 50100 "DB Search Functions"
         RecRef: RecordRef;
         FldRef: FieldRef;
         OptionValue: Integer;
-        OptionsQst: TextConst ENU = 'With validation,Without validation', ITA = 'Con validazione,Senza validazione';
-        Text001Txt: TextConst ENU = 'Correct selected values?', ITA = 'Correggere i valori selezionati?';
-        Text002Txt: TextConst ENU = 'Correction completed', ITA = 'Correzione completata';
+        OptionsQst: Label 'With validation,Without validation';
+        Text001Txt: Label 'Correct selected values?';
+        Text002Txt: Label 'Correction completed';
     begin
         OptionValue := Dialog.StrMenu(OptionsQst, 1, Text001Txt);
         if OptionValue = 0 then
@@ -54,10 +54,10 @@ codeunit 50100 "DB Search Functions"
     var
         RecRef: RecordRef;
         OptionValue: Integer;
-        OptionsQst: TextConst ENU = 'With validation,Without validation', ITA = 'Con validazione,Senza validazione';
-        Text001Txt: TextConst ENU = 'Delete selected records?', ITA = 'Eliminare i record selezionati?';
-        Text002Txt: TextConst ENU = 'Deletion completed', ITA = 'Eliminazione completata';
-        Text003Txt: TextConst ENU = 'Are you VERY sure you want to proceed with the deletion of selected records? The operation cannot be undone. Make a backup of the database before continuing.', ITA = 'Sei veramente sicuro di voler eliminare i record selezionati? L''operazione è irreversibile. Esegui un backup del database prima di continuare.';
+        OptionsQst: Label 'With validation,Without validation';
+        Text001Txt: Label 'Delete selected records?';
+        Text002Txt: Label 'Deletion completed';
+        Text003Txt: Label 'Are you VERY sure you want to proceed with the deletion of selected records? The operation cannot be undone. Make a backup of the database before continuing.';
     begin
         OptionValue := Dialog.StrMenu(OptionsQst, 2, Text001Txt);
         if OptionValue = 0 then
@@ -103,10 +103,10 @@ codeunit 50100 "DB Search Functions"
         RecRef: RecordRef;
         FldRef: FieldRef;
         OptionValue: Integer;
-        OptionsQst: TextConst ENU = 'With validation,Without validation', ITA = 'Con validazione,Senza validazione';
-        Text001Txt: TextConst ENU = 'Restore selected value?', ITA = 'Ripristinare il valore selezionato?';
-        Text002Txt: TextConst ENU = 'Restore completed', ITA = 'Ripristino completato';
-        Text003Txt: TextConst ENU = 'The value you are trying to restore has changed since you applied the correction. Continue?\\Current value: %1\Correction value: %2\Value to restore: %3';
+        OptionsQst: Label 'With validation,Without validation';
+        Text001Txt: Label 'Restore selected value?';
+        Text002Txt: Label 'Restore completed';
+        Text003Txt: Label 'The value you are trying to restore has changed since you applied the correction. Continue?\\Current value: %1\Correction value: %2\Value to restore: %3';
     begin
         OptionValue := Dialog.StrMenu(OptionsQst, 1, Text001Txt);
         if OptionValue = 0 then

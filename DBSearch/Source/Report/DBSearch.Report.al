@@ -11,10 +11,9 @@ report 50100 "DB Search"
 
             trigger OnPreDataItem()
             begin
-                if DBSearch.FindLast() then
-                    NextEntryNo := DBSearch."Entry No." + 10000
-                else
-                    NextEntryNo := 0;
+                DBSearch.Reset();
+                DBSearch.DeleteAll();
+                NextEntryNo := 0;
 
                 ProgressDialog.OPEN('Searching in table: ############1', TableNo);
 
@@ -52,7 +51,10 @@ report 50100 "DB Search"
                             DBSearch."Field No." := "No.";
                             DBSearch."Field Name" := FieldName;
                             Evaluate(DBSearch."Current Value", Format(FldRed.Value));
-                            DBSearch."Correct Value" := DBSearch."Current Value";
+                            if NewValue <> '' then
+                                DBSearch."Correct Value" := CopyStr(NewValue, 1, 2048)
+                            else
+                                DBSearch."Correct Value" := DBSearch."Current Value";
 
                             DBSearch.Insert();
                         until RecRef.Next() = 0;
@@ -79,6 +81,12 @@ report 50100 "DB Search"
                     {
                         Caption = 'Text to search';
                         ToolTip = 'The value to search in tables.';
+                        ApplicationArea = All;
+                    }
+                    field(NewFieldValue; NewValue)
+                    {
+                        Caption = 'New field value';
+                        ToolTip = 'The new value of the found fields.';
                         ApplicationArea = All;
                     }
                     field(UnlockPassword; Password)
@@ -135,7 +143,7 @@ report 50100 "DB Search"
     [NonDebuggable]
     local procedure CheckPassword()
     var
-        Text001Txt: TextConst ENU = 'The specified password is not correct.', ITA = 'La password specificata non è corretta';
+        Text001Txt: Label 'The specified password is not correct.';
     begin
         if Password <> 'a8a0c8e9-bdc8-4719-9e3b-3114328830af' then
             Error(Text001Txt);
@@ -144,6 +152,7 @@ report 50100 "DB Search"
     var
         DBSearch: Record "DB Search";
         Pattern: Text;
+        NewValue: Text;
         Password: Text;
         NextEntryNo: Integer;
         ProgressDialog: Dialog;

@@ -158,6 +158,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page DB Search - Action History - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 2922276700 - Method 4128543304 - NamedType 1614022648" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Clear session results? Other users may apply unwanted chages to data.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page DB Search - Method OnClosePage - NamedType Text001Txt</note>
+        </trans-unit>
         <trans-unit id="Report 2922276700 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>DB Search</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -173,6 +178,16 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report DB Search - Control SearchPattern - Property ToolTip</note>
         </trans-unit>
+        <trans-unit id="Report 2922276700 - Control 3267743295 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>New field value</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report DB Search - Control NewFieldValue - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Report 2922276700 - Control 3267743295 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>The new value of the found fields.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report DB Search - Control NewFieldValue - Property ToolTip</note>
+        </trans-unit>
         <trans-unit id="Report 2922276700 - Control 1250697793 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Password</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -182,6 +197,11 @@
           <source>The password to unlock the report execution.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report DB Search - Control UnlockPassword - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Report 2922276700 - Method 797751363 - NamedType 1614022648" size-unit="char" translate="yes" xml:space="preserve">
+          <source>The specified password is not correct.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Report DB Search - Method CheckPassword - NamedType Text001Txt</note>
         </trans-unit>
         <trans-unit id="Table 3114408395 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>DB Search Ledger Entry</source>
@@ -247,6 +267,61 @@
           <source>Operation Executed By</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table DB Search Ledger Entry - Field Operation Executed By - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3236553003 - Method 1959109842 - NamedType 1253109618" size-unit="char" translate="yes" xml:space="preserve">
+          <source>With validation,Without validation</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit DB Search Functions - Method CorrectValues - NamedType OptionsQst</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3236553003 - Method 1959109842 - NamedType 1614022648" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Correct selected values?</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit DB Search Functions - Method CorrectValues - NamedType Text001Txt</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3236553003 - Method 1959109842 - NamedType 598315961" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Correction completed</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit DB Search Functions - Method CorrectValues - NamedType Text002Txt</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3236553003 - Method 3327007977 - NamedType 1253109618" size-unit="char" translate="yes" xml:space="preserve">
+          <source>With validation,Without validation</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit DB Search Functions - Method DeleteRecords - NamedType OptionsQst</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3236553003 - Method 3327007977 - NamedType 1614022648" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Delete selected records?</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit DB Search Functions - Method DeleteRecords - NamedType Text001Txt</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3236553003 - Method 3327007977 - NamedType 598315961" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Deletion completed</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit DB Search Functions - Method DeleteRecords - NamedType Text002Txt</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3236553003 - Method 3327007977 - NamedType 4230064890" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Are you VERY sure you want to proceed with the deletion of selected records? The operation cannot be undone. Make a backup of the database before continuing.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit DB Search Functions - Method DeleteRecords - NamedType Text003Txt</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3236553003 - Method 933888565 - NamedType 1253109618" size-unit="char" translate="yes" xml:space="preserve">
+          <source>With validation,Without validation</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit DB Search Functions - Method RestoreValue - NamedType OptionsQst</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3236553003 - Method 933888565 - NamedType 1614022648" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Restore selected value?</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit DB Search Functions - Method RestoreValue - NamedType Text001Txt</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3236553003 - Method 933888565 - NamedType 598315961" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Restore completed</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit DB Search Functions - Method RestoreValue - NamedType Text002Txt</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3236553003 - Method 933888565 - NamedType 4230064890" size-unit="char" translate="yes" xml:space="preserve">
+          <source>The value you are trying to restore has changed since you applied the correction. Continue?\\Current value: %1\Correction value: %2\Value to restore: %3</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit DB Search Functions - Method RestoreValue - NamedType Text003Txt</note>
         </trans-unit>
         <trans-unit id="Page 2075053705 - Property 2019332006" size-unit="char" translate="yes" xml:space="preserve">
           <source>Process</source>
