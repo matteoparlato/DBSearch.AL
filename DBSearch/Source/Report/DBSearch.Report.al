@@ -102,6 +102,8 @@ report 50100 "DB Search"
 
         trigger OnQueryClosePage(CloseAction: Action): Boolean
         var
+            Fields2: Record Field;
+            MinLength: Integer;
             TypeFilter: Text;
         begin
             if CloseAction = Action::OK then begin
@@ -111,11 +113,21 @@ report 50100 "DB Search"
                 if Field.GetFilter(Type) = '' then
                     Field.TestField(Type);
 
-                // Len filter is mandatory with 
+                // Len filter is mandatory with Code or Text Type
                 TypeFilter := Field.GetFilter(Type);
                 if TypeFilter.Contains('Code') or TypeFilter.Contains('Text') then
-                    if (Field.GetFilter(Len) = '') then
-                        Field.TestField(Len);
+                    if (Field.GetFilter(Len) = '') then begin
+                        Fields2.Reset();
+                        Fields2.CopyFilters(Field);
+                        if Fields2.FindFirst() then begin
+                            MinLength := Fields2.Len;
+                            repeat
+                                if Fields2.Len < MinLength then
+                                    MinLength := Fields2.len;
+                            until Fields2.Next() = 0;
+                        end;
+                        Field.SetFilter(Len, '>=%1', MinLength);
+                    end;
             end;
         end;
     }
